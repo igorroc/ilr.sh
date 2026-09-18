@@ -30,7 +30,7 @@ export function LoginForm() {
 				return
 			}
 
-			router.replace("/profile")
+			router.replace("/admin")
 			router.refresh()
 		} catch {
 			toast.error("Something went wrong. Please try again later.")

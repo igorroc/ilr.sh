@@ -14,6 +14,7 @@ const safeUserSelect = {
 	id: true,
 	name: true,
 	email: true,
+	username: true,
 	createdAt: true,
 } as const
 

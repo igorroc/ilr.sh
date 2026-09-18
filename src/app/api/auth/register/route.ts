@@ -2,7 +2,13 @@ import { AuthService, registerRequestSchema } from "@/modules/auth"
 import { ApiResponse } from "@/lib/api/api-response"
 import { TypeGuard } from "@/lib/api/api-result"
 
+const isRegisterEnabled = false
+
 export async function POST(request: Request) {
+	if(!isRegisterEnabled) {
+		return ApiResponse.error("INTERNAL_ERROR", "Registration is currently disabled.", 403)
+	}
+
 	const body = await request.json().catch(() => null)
 	const parsed = registerRequestSchema.safeParse(body)
 

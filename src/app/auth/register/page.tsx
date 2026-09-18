@@ -1,5 +1,5 @@
-import { RegisterContent } from "@/components/auth/register-content"
+import { redirect } from "next/navigation"
 
 export default function Register() {
-	return <RegisterContent />
+	redirect("/auth/login")
 }
