@@ -1,1 +1,1 @@
-export { HomeContent } from "./home-content"
+export { LandingContent } from "./landing-content"
