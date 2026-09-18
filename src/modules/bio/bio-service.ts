@@ -12,6 +12,8 @@ export class BioService {
 		ctaLabel?: string
 		ctaUrl?: string
 		topics: string[]
+		quote?: string
+		quoteAccentColor?: string
 		isPublished: boolean
 	}) {
 		const user = await AuthSession.requireUser()
@@ -35,6 +37,8 @@ export class BioService {
 			ctaLabel: ctaUrl ? ctaLabel || "Vamos conversar" : null,
 			ctaUrl: ctaUrl ? validateDestinationUrl(ctaUrl) : null,
 			topics,
+			quote: input.quote?.trim() || null,
+			quoteAccentColor: normalizeHexColor(input.quoteAccentColor, "A cor do quote"),
 			isPublished: input.isPublished,
 		}
 		return db.bioPage.upsert({
@@ -75,7 +79,7 @@ export class BioService {
 				pageId: page.id,
 				title,
 				description: input.description?.trim() || null,
-				accentColor: normalizeAccentColor(input.accentColor),
+				accentColor: normalizeHexColor(input.accentColor, "A cor do link"),
 				linkId: input.linkId || null,
 				destinationUrl: hasUrl ? validateDestinationUrl(input.destinationUrl!) : null,
 				sortOrder: (last._max.sortOrder ?? -1) + 1,
@@ -109,7 +113,7 @@ export class BioService {
 			data: {
 				title,
 				description: input.description?.trim() || null,
-				accentColor: normalizeAccentColor(input.accentColor),
+				accentColor: normalizeHexColor(input.accentColor, "A cor do link"),
 				isVisible: input.isVisible,
 				destinationUrl: item.linkId ? undefined : validateDestinationUrl(input.destinationUrl!),
 			},
@@ -158,6 +162,8 @@ export class BioService {
 						ctaLabel: true,
 						ctaUrl: true,
 						topics: true,
+						quote: true,
+						quoteAccentColor: true,
 						links: {
 							where: { isVisible: true },
 							orderBy: { sortOrder: "asc" },
@@ -179,10 +185,9 @@ export class BioService {
 	}
 }
 
-function normalizeAccentColor(value?: string) {
+function normalizeHexColor(value?: string, label = "A cor") {
 	const color = value?.trim()
 	if (!color) return null
-	if (!/^#[0-9a-f]{6}$/i.test(color))
-		throw new Error("A cor do link deve estar no formato #RRGGBB.")
+	if (!/^#[0-9a-f]{6}$/i.test(color)) throw new Error(`${label} deve estar no formato #RRGGBB.`)
 	return color
 }

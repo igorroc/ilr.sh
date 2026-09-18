@@ -96,6 +96,26 @@ export default async function AdminBioPage() {
 						/>
 					</label>
 				</div>
+				<label className="block text-sm font-medium">
+					Quote
+					<textarea
+						name="quote"
+						defaultValue={page?.quote ?? ""}
+						placeholder="Tecnologia é mais poderosa quando aproxima pessoas, produtos e oportunidades."
+						rows={3}
+						className="mt-2 w-full rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
+					/>
+				</label>
+				<label className="block text-sm font-medium">
+					Cor de destaque do quote
+					<input
+						name="quoteAccentColor"
+						defaultValue={page?.quoteAccentColor ?? "#DCFCE7"}
+						placeholder="#DCFCE7"
+						pattern="#[0-9A-Fa-f]{6}"
+						className="mt-2 w-full rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
+					/>
+				</label>
 				<label className="flex items-center gap-2">
 					<input
 						name="isPublished"

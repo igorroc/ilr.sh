@@ -73,6 +73,8 @@ export async function savePageAction(formData: FormData) {
 		topics: String(formData.get("topics") ?? "")
 			.split(",")
 			.map((topic) => topic.trim()),
+		quote: String(formData.get("quote") ?? ""),
+		quoteAccentColor: String(formData.get("quoteAccentColor") ?? ""),
 		isPublished: checked(formData.get("isPublished")),
 	})
 	revalidatePath("/admin/page")

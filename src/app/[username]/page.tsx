@@ -240,9 +240,40 @@ export default async function PublicBioPage({ params }: { params: Promise<{ user
 					</div>
 				</section>
 
-				<footer className="mx-5 flex items-center justify-between border-t border-slate-200 py-5 text-sm text-slate-400 sm:mx-8">
-					<span className="font-black text-slate-900">ilr.sh</span>
-					<span>Build. Share. Connect.</span>
+				{page.quote && (
+					<section className="px-5 pb-2 sm:px-8">
+						<figure
+							className="flex flex-col gap-4 rounded-2xl px-5 py-5 sm:px-7 md:flex-row md:items-center md:gap-8"
+							style={{ backgroundColor: quoteAccent }}
+						>
+							<span
+								aria-hidden="true"
+								className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-white/70 text-3xl leading-none font-black text-emerald-500"
+							>
+								&ldquo;
+							</span>
+							<blockquote className="flex-1 text-base leading-6 text-pretty text-slate-800 sm:text-lg sm:leading-7">
+								&ldquo;{page.quote}&rdquo;
+							</blockquote>
+							<figcaption className="shrink-0 text-sm font-semibold text-slate-800 md:text-right">
+								&mdash; {page.name}
+							</figcaption>
+						</figure>
+					</section>
+				)}
+
+				<footer className="mx-5 flex flex-col gap-3 py-6 text-sm text-slate-400 sm:mx-8 md:flex-row md:items-center md:justify-between">
+					<span className="flex items-center gap-2">
+						<Image src="/icon.png" alt="" width={28} height={28} className="h-7 w-7 rounded-md" />
+						<span className="text-base font-black tracking-tight text-slate-900">ilr.sh</span>
+					</span>
+					<span className="text-xs sm:text-sm">
+						&copy; {currentYear} {page.name}. Todos os direitos reservados.
+					</span>
+					<span className="inline-flex items-center gap-2">
+						Build a better tomorrow.
+						<span aria-hidden="true" className="inline-block h-1 w-6 rounded-full bg-emerald-400" />
+					</span>
 				</footer>
 			</div>
 		</main>
