@@ -5,7 +5,7 @@ import { TypeGuard } from "@/lib/api/api-result"
 const isRegisterEnabled = false
 
 export async function POST(request: Request) {
-	if(!isRegisterEnabled) {
+	if (!isRegisterEnabled) {
 		return ApiResponse.error("INTERNAL_ERROR", "Registration is currently disabled.", 403)
 	}
 
