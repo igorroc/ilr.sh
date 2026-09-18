@@ -8,11 +8,14 @@ export async function proxy(request: NextRequest) {
 		request.nextUrl.pathname.startsWith("/auth/register")
 	) {
 		if (SessionCookie.hasSessionCookie(request)) {
-			return Response.redirect(new URL("/profile", request.url))
+			return Response.redirect(new URL("/admin", request.url))
 		}
 	}
 
-	if (request.nextUrl.pathname.startsWith("/profile")) {
+	if (
+		request.nextUrl.pathname.startsWith("/admin") ||
+		request.nextUrl.pathname.startsWith("/profile")
+	) {
 		if (!SessionCookie.hasSessionCookie(request)) {
 			return Response.redirect(new URL("/auth/login", request.url))
 		}
@@ -20,5 +23,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ["/profile/:path*", "/auth/login", "/auth/register"],
+	matcher: ["/admin/:path*", "/profile/:path*", "/auth/login", "/auth/register"],
 }
