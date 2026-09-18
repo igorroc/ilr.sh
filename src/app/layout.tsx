@@ -9,8 +9,8 @@ import { Providers } from "./providers"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-	title: "Fullstack Project",
-	description: "Fullstack Project with Next.js and Prisma",
+	title: "ilr.sh",
+	description: "Links simples, sob seu controle.",
 }
 
 export default function RootLayout({
