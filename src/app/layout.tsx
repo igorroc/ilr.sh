@@ -9,8 +9,12 @@ import { Providers } from "./providers"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
+	metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://ilr.sh"),
 	title: "ilr.sh",
 	description: "Links simples, sob seu controle.",
+	icons: {
+		icon: [{ url: "/favicon.png", type: "image/png", sizes: "64x64" }],
+	},
 }
 
 export default function RootLayout({
