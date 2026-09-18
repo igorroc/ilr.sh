@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
+import { LinkFavicon } from "@/components/profile/link-favicon"
 import { PublicProfileShare } from "@/components/profile/public-profile-share"
 import { BioService } from "@/modules/bio"
 
@@ -12,14 +13,6 @@ async function getPage(username: string) {
 	const segment = decodeURIComponent(username)
 	if (!segment.startsWith("@")) return null
 	return BioService.getPublic(segment.slice(1).toLowerCase())
-}
-
-function faviconUrl(destinationUrl: string) {
-	try {
-		return `${new URL(destinationUrl).origin}/favicon.ico`
-	} catch {
-		return null
-	}
 }
 
 function ArrowIcon() {
@@ -212,7 +205,6 @@ export default async function PublicBioPage({ params }: { params: Promise<{ user
 					<div className="mt-3 grid gap-3 md:grid-cols-3">
 						{links.map((item) => {
 							const destinationUrl = item.link?.destinationUrl ?? item.destinationUrl!
-							const iconUrl = faviconUrl(destinationUrl)
 							const href = item.link ? `/r/${item.link.slug}` : destinationUrl
 							return (
 								<a
@@ -225,13 +217,8 @@ export default async function PublicBioPage({ params }: { params: Promise<{ user
 										item.accentColor ? { backgroundColor: `${item.accentColor}18` } : undefined
 									}
 								>
-									<span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl bg-slate-950 p-2 text-sm font-bold text-white">
-										{iconUrl ? (
-											/* eslint-disable-next-line @next/next/no-img-element */
-											<img src={iconUrl} alt="" className="h-full w-full object-contain" />
-										) : (
-											item.title.charAt(0).toUpperCase()
-										)}
+									<span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-xl border border-slate-200 bg-white/85 shadow-sm">
+										<LinkFavicon destinationUrl={destinationUrl} title={item.title} />
 									</span>
 									<span className="min-w-0 flex-1 text-left">
 										<span className="block truncate font-bold">{item.title}</span>
