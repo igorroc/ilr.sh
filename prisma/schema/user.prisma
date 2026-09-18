@@ -7,6 +7,7 @@ model User {
 
   links   Link[]
   bioPage BioPage?
+  images  ImageAsset[]
 
   sessions Session[]
 

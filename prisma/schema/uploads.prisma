@@ -1,0 +1,23 @@
+model ImageAsset {
+  id          String  @id @default(cuid())
+  kind        String
+  url         String  @unique
+  pathname    String
+  sizeBytes   Int?
+  width       Int?
+  height      Int?
+  contentType String?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  avatarPages BioPage[] @relation("BioPageAvatar")
+  bannerPages BioPage[] @relation("BioPageBanner")
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([userId, createdAt])
+  @@index([userId, deletedAt])
+}

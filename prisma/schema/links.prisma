@@ -29,6 +29,11 @@ model BioPage {
   quote            String?
   quoteAccentColor String?
 
+  avatarImage   ImageAsset? @relation("BioPageAvatar", fields: [avatarImageId], references: [id], onDelete: SetNull)
+  avatarImageId String?
+  bannerImage   ImageAsset? @relation("BioPageBanner", fields: [bannerImageId], references: [id], onDelete: SetNull)
+  bannerImageId String?
+
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 
