@@ -126,7 +126,10 @@ export default async function PublicBioPage({ params }: { params: Promise<{ user
 	const links = page.links.filter(
 		(item) => !item.link || (item.link.isActive && !item.link.deletedAt),
 	)
-	const avatarUrl = `https://api.dicebear.com/9.x/notionists-neutral/svg?seed=${encodeURIComponent(user.username)}`
+	const avatarUrl = `https://api.dicebear.com/10.x/planets/svg?seed=${encodeURIComponent(user.username)}`
+
+	const quoteAccent = page.quoteAccentColor ?? "#DCFCE7"
+	const currentYear = new Date().getFullYear()
 
 	return (
 		<main className="min-h-dvh bg-[#f4f8f8] px-3 py-3 text-slate-950 sm:px-6 sm:py-8">
