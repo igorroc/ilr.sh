@@ -93,16 +93,6 @@ export function AdminNav({ username, name, email }: AdminNavProps) {
 						breve
 					</span>
 				</span>
-				<span
-					title="Em breve"
-					className="flex cursor-not-allowed items-center gap-3 rounded-xl px-3.5 py-2.5 text-[14px] font-medium text-slate-600"
-				>
-					<Icon d={ICONS.globe} />
-					Domínios
-					<span className="ml-auto rounded-full border border-white/10 px-2 py-0.5 text-[10px] tracking-wide text-slate-500 uppercase">
-						breve
-					</span>
-				</span>
 				<Link href="/admin/profile" className={itemClass(isActive("/admin/profile"))}>
 					<Icon d={ICONS.gear} />
 					Configurações
