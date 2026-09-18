@@ -1,33 +1,52 @@
 "use client"
 
-import { Card } from "@heroui/react"
 import Link from "next/link"
 import { LoginForm } from "./login-form"
 
 export function LoginContent() {
 	return (
-		<main className="relative flex min-h-dvh items-center justify-center overflow-hidden px-6 py-12">
-			<div className="bg-primary/25 absolute -top-20 right-10 h-64 w-64 rounded-full blur-3xl" />
-			<Card className="w-full max-w-md border border-white/15 bg-white/10 shadow-2xl shadow-sky-950/40 backdrop-blur-xl">
-				<Card.Header className="flex flex-col gap-3 px-6 pt-8 pb-4 text-center">
-					<p className="text-sm font-semibold tracking-[0.3em] text-sky-200 uppercase">
+		<main className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-[#060b09] px-4 py-12 antialiased">
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/80 to-transparent"
+			/>
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl"
+			/>
+			<div className="relative w-full max-w-md">
+				<Link
+					href="/"
+					aria-label="ilr.sh — início"
+					className="mx-auto flex w-fit items-center gap-2"
+				>
+					<span className="grid h-9 w-9 place-items-center rounded-[10px] bg-emerald-400 text-base font-black text-[#06110b] italic">
+						il
+					</span>
+					<span className="text-xl font-extrabold tracking-tight text-white">ilr.sh</span>
+				</Link>
+				<section className="mt-6 rounded-[24px] border border-white/[0.08] bg-[#0e1512]/90 p-6 shadow-2xl sm:p-8">
+					<p className="text-center text-[13px] font-bold tracking-[0.18em] text-emerald-300 uppercase">
 						Bem-vindo de volta
 					</p>
-					<h1 className="text-4xl font-black text-white">Entrar</h1>
-					<p className="text-sm leading-6 text-slate-300">
+					<h1 className="mt-2 text-center text-3xl font-black tracking-tight text-white">Entrar</h1>
+					<p className="mt-2 text-center text-sm leading-6 text-slate-400">
 						Acesse sua conta para continuar de onde parou.
 					</p>
-				</Card.Header>
-				<Card.Content className="px-6 pb-8">
-					<LoginForm />
-					<p className="mt-5 text-center text-sm text-slate-300">
+					<div className="mt-6">
+						<LoginForm />
+					</div>
+					<p className="mt-5 text-center text-sm text-slate-400">
 						Ainda não tem uma conta?{" "}
-						<Link href="/auth/register" className="font-semibold text-sky-200 hover:text-white">
+						<Link
+							href="/auth/register"
+							className="font-bold text-emerald-300 hover:text-emerald-200 hover:underline"
+						>
 							Cadastre-se
 						</Link>
 					</p>
-				</Card.Content>
-			</Card>
+				</section>
+			</div>
 		</main>
 	)
 }

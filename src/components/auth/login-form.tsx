@@ -1,12 +1,14 @@
 "use client"
 
-import { Input, Button } from "@heroui/react"
 import { toast } from "react-toastify"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
 import { ApiClient } from "@/lib/api/api-client"
 import { TypeGuard } from "@/lib/api/api-result"
+
+const inputClass =
+	"w-full rounded-xl border border-white/10 bg-[#0a100d] px-3.5 py-3 text-[14px] text-white placeholder:text-slate-600 outline-none transition focus:border-emerald-300/50 focus:ring-2 focus:ring-emerald-400/20 disabled:cursor-not-allowed disabled:opacity-50"
 
 export function LoginForm() {
 	const [isLoading, setIsLoading] = useState(false)
@@ -33,41 +35,44 @@ export function LoginForm() {
 			router.replace("/admin")
 			router.refresh()
 		} catch {
-			toast.error("Something went wrong. Please try again later.")
+			toast.error("Algo deu errado. Tente novamente mais tarde.")
 			setIsLoading(false)
 		}
 	}
 
 	return (
 		<form onSubmit={loginClient} className="flex flex-col gap-4">
-			<Input
-				type="email"
-				aria-label="Email"
-				placeholder="voce@email.com"
-				name="email"
-				required
-				variant="primary"
-				disabled={isLoading}
-			/>
-			<Input
-				type="password"
-				aria-label="Senha"
-				placeholder="Sua senha"
-				name="password"
-				required
-				variant="primary"
-				disabled={isLoading}
-			/>
-			<Button
+			<label className="block text-[13px] font-semibold text-slate-300">
+				E-mail
+				<input
+					type="email"
+					name="email"
+					required
+					autoComplete="email"
+					placeholder="voce@email.com"
+					disabled={isLoading}
+					className={`${inputClass} mt-2`}
+				/>
+			</label>
+			<label className="block text-[13px] font-semibold text-slate-300">
+				Senha
+				<input
+					type="password"
+					name="password"
+					required
+					autoComplete="current-password"
+					placeholder="Sua senha"
+					disabled={isLoading}
+					className={`${inputClass} mt-2`}
+				/>
+			</label>
+			<button
 				type="submit"
-				variant="primary"
-				size="lg"
-				fullWidth
-				className="mt-2 font-semibold"
-				isDisabled={isLoading}
+				disabled={isLoading}
+				className="mt-1 w-full rounded-xl bg-emerald-400 px-4 py-3 text-sm font-extrabold text-[#06110b] shadow-[0_8px_24px_-8px_rgba(52,211,153,0.6)] transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
 			>
-				Entrar
-			</Button>
+				{isLoading ? "Entrando..." : "Entrar"}
+			</button>
 		</form>
 	)
 }

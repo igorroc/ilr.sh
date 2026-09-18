@@ -1,4 +1,11 @@
+import type { Metadata } from "next"
+
 import { LogoutContent } from "@/components/auth/logout-content"
+
+export const metadata: Metadata = {
+	title: "Sair",
+	robots: { index: false, follow: false },
+}
 
 type LogoutPageProps = {
 	searchParams: Promise<{
