@@ -9,6 +9,8 @@ import { UserService } from "@/modules/users"
 
 const checked = (value: FormDataEntryValue | null) => value === "on"
 
+export type CreateLinkActionResult = { success: true } | { success: false; error: string }
+
 async function revalidatePublicPage() {
 	const user = await AuthSession.requireUser()
 	if (user.username) revalidatePath(`/@${user.username}`)
@@ -23,13 +25,22 @@ export async function saveProfileAction(formData: FormData) {
 	revalidatePath("/admin/page")
 }
 
-export async function createLinkAction(formData: FormData) {
-	await LinkService.create({
-		title: String(formData.get("title") ?? ""),
-		slug: String(formData.get("slug") ?? ""),
-		destinationUrl: String(formData.get("destinationUrl") ?? ""),
-	})
-	revalidatePath("/admin")
+export async function createLinkAction(formData: FormData): Promise<CreateLinkActionResult> {
+	try {
+		await LinkService.create({
+			title: String(formData.get("title") ?? ""),
+			slug: String(formData.get("slug") ?? ""),
+			destinationUrl: String(formData.get("destinationUrl") ?? ""),
+		})
+		revalidatePath("/admin")
+		return { success: true }
+	} catch (error) {
+		return {
+			success: false,
+			error:
+				error instanceof Error ? error.message : "Não foi possível criar o link. Tente novamente.",
+		}
+	}
 }
 
 export async function updateLinkAction(id: string, formData: FormData) {
