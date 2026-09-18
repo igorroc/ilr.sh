@@ -12,7 +12,12 @@
 	"bugs": {
 		"url": "https://github.com/igorroc/ilr.sh/issues"
 	},
-	"keywords": ["link-shortener", "url-shortener", "link-in-bio", "private"],
+	"keywords": [
+		"link-shortener",
+		"url-shortener",
+		"link-in-bio",
+		"private"
+	],
 	"packageManager": "bun@1.4.2",
 	"engines": {
 		"bun": ">=1.4.2"
@@ -44,6 +49,7 @@
 		"lint": "eslint . --max-warnings=0",
 		"format": "prettier . --write",
 		"format:check": "prettier . --check",
+		"generate": "prisma generate",
 		"compose:up": "docker compose up -d",
 		"vercel-build": "prisma generate && prisma migrate deploy && next build",
 		"migrate": "bunx prisma migrate dev && bunx prisma generate",
