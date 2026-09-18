@@ -47,6 +47,15 @@ export default async function AdminBioPage() {
 					/>
 				</label>
 				<label className="block text-sm font-medium">
+					Cargo ou chamada curta
+					<input
+						name="headline"
+						defaultValue={page?.headline ?? ""}
+						placeholder="Founder. CTO. Builder."
+						className="mt-2 w-full rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
+					/>
+				</label>
+				<label className="block text-sm font-medium">
 					Descrição
 					<input
 						name="description"
@@ -54,6 +63,39 @@ export default async function AdminBioPage() {
 						className="mt-2 w-full rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
 					/>
 				</label>
+				<label className="block text-sm font-medium">
+					Competências
+					<input
+						name="topics"
+						defaultValue={Array.isArray(page?.topics) ? page.topics.join(", ") : ""}
+						placeholder="Produto, Tecnologia, IA"
+						className="mt-2 w-full rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
+					/>
+					<span className="mt-2 block text-xs text-slate-400">
+						Separe por vírgulas, até 12 itens.
+					</span>
+				</label>
+				<div className="grid gap-5 sm:grid-cols-2">
+					<label className="block text-sm font-medium">
+						Texto do botão principal
+						<input
+							name="ctaLabel"
+							defaultValue={page?.ctaLabel ?? ""}
+							placeholder="Vamos conversar"
+							className="mt-2 w-full rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
+						/>
+					</label>
+					<label className="block text-sm font-medium">
+						URL do botão principal
+						<input
+							name="ctaUrl"
+							type="url"
+							defaultValue={page?.ctaUrl ?? ""}
+							placeholder="https://wa.me/..."
+							className="mt-2 w-full rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
+						/>
+					</label>
+				</div>
 				<label className="flex items-center gap-2">
 					<input
 						name="isPublished"
@@ -83,6 +125,12 @@ export default async function AdminBioPage() {
 											defaultValue={item.title}
 											className="rounded-xl border border-white/20 bg-slate-950/40 px-3 py-2 text-white"
 										/>
+										<input
+											name="description"
+											defaultValue={item.description ?? ""}
+											placeholder="Subtítulo do link"
+											className="rounded-xl border border-white/20 bg-slate-950/40 px-3 py-2 text-white"
+										/>
 										{item.linkId ? (
 											<p className="rounded-xl bg-slate-950/40 px-3 py-2 text-sm text-slate-300">
 												/r/{item.link?.slug}
@@ -95,6 +143,13 @@ export default async function AdminBioPage() {
 												className="rounded-xl border border-white/20 bg-slate-950/40 px-3 py-2 text-white"
 											/>
 										)}
+										<input
+											name="accentColor"
+											defaultValue={item.accentColor ?? ""}
+											placeholder="#E0F2FE (opcional)"
+											pattern="#[0-9A-Fa-f]{6}"
+											className="rounded-xl border border-white/20 bg-slate-950/40 px-3 py-2 text-white"
+										/>
 										<label className="flex items-center gap-2 text-sm">
 											<input name="isVisible" type="checkbox" defaultChecked={item.isVisible} />{" "}
 											Visível
@@ -137,6 +192,11 @@ export default async function AdminBioPage() {
 								placeholder="Título do link"
 								className="rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
 							/>
+							<input
+								name="description"
+								placeholder="Subtítulo do link (opcional)"
+								className="rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
+							/>
 							<select
 								name="linkId"
 								className="rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
@@ -152,6 +212,12 @@ export default async function AdminBioPage() {
 								name="destinationUrl"
 								type="url"
 								placeholder="https://exemplo.com (apenas para URL direta)"
+								className="rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
+							/>
+							<input
+								name="accentColor"
+								placeholder="#E0F2FE (cor opcional)"
+								pattern="#[0-9A-Fa-f]{6}"
 								className="rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
 							/>
 							<button className="rounded-xl bg-sky-500 px-4 py-3 font-semibold text-white hover:bg-sky-400">

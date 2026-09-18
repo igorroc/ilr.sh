@@ -4,10 +4,16 @@ import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
 import { BioService } from "@/modules/bio"
+import { AuthSession } from "@/modules/auth"
 import { LinkService } from "@/modules/links"
 import { UserService } from "@/modules/users"
 
 const checked = (value: FormDataEntryValue | null) => value === "on"
+
+async function revalidatePublicPage() {
+	const user = await AuthSession.requireUser()
+	if (user.username) revalidatePath(`/@${user.username}`)
+}
 
 export async function saveProfileAction(formData: FormData) {
 	await UserService.updateProfile({
@@ -50,36 +56,51 @@ export async function deleteLinkAction(id: string) {
 export async function savePageAction(formData: FormData) {
 	await BioService.savePage({
 		name: String(formData.get("name") ?? ""),
+		headline: String(formData.get("headline") ?? ""),
 		description: String(formData.get("description") ?? ""),
+		ctaLabel: String(formData.get("ctaLabel") ?? ""),
+		ctaUrl: String(formData.get("ctaUrl") ?? ""),
+		topics: String(formData.get("topics") ?? "")
+			.split(",")
+			.map((topic) => topic.trim()),
 		isPublished: checked(formData.get("isPublished")),
 	})
 	revalidatePath("/admin/page")
+	await revalidatePublicPage()
 }
 
 export async function addBioLinkAction(formData: FormData) {
 	await BioService.addBioLink({
 		title: String(formData.get("title") ?? ""),
+		description: String(formData.get("description") ?? ""),
+		accentColor: String(formData.get("accentColor") ?? ""),
 		linkId: String(formData.get("linkId") ?? "") || undefined,
 		destinationUrl: String(formData.get("destinationUrl") ?? "") || undefined,
 	})
 	revalidatePath("/admin/page")
+	await revalidatePublicPage()
 }
 
 export async function updateBioLinkAction(id: string, formData: FormData) {
 	await BioService.updateBioLink(id, {
 		title: String(formData.get("title") ?? ""),
+		description: String(formData.get("description") ?? ""),
+		accentColor: String(formData.get("accentColor") ?? ""),
 		destinationUrl: String(formData.get("destinationUrl") ?? "") || undefined,
 		isVisible: checked(formData.get("isVisible")),
 	})
 	revalidatePath("/admin/page")
+	await revalidatePublicPage()
 }
 
 export async function deleteBioLinkAction(id: string) {
 	await BioService.removeBioLink(id)
 	revalidatePath("/admin/page")
+	await revalidatePublicPage()
 }
 
 export async function moveBioLinkAction(id: string, direction: "up" | "down") {
 	await BioService.moveBioLink(id, direction)
 	revalidatePath("/admin/page")
+	await revalidatePublicPage()
 }
