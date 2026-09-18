@@ -141,7 +141,11 @@ This project follows clean architecture principles with a well-organized structu
 │   │   └── db.ts        # Database connection (Prisma)
 │   └── proxy.ts         # Route protection proxy
 ├── prisma/
-│   └── schema.prisma    # Database schema
+│   ├── migrations/      # Database migrations
+│   └── schema/          # Modular Prisma schemas
+│       ├── schema.prisma # Prisma configuration
+│       ├── user.prisma   # User model
+│       └── auth.prisma   # Authentication models
 └── public/              # Static files
 ```
 
@@ -168,7 +172,7 @@ The template includes a complete authentication system:
 
 The template uses Prisma with PostgreSQL:
 
-- Edit `prisma/schema.prisma` to modify your database schema
+- Edit files in `prisma/schema/` to modify your database schema
 - Run `bun run migrate` to apply changes
 - Use `bun run prisma:studio` to visualize your data
 
@@ -262,7 +266,7 @@ export default async function ProductsPage() {
 
 ### Database Schema
 
-Modify `prisma/schema.prisma` to add or change models, then run:
+Modify or add files in `prisma/schema/` to add or change models, then run:
 
 ```bash
 bun run migrate:create-only  # Create migration without applying
