@@ -115,7 +115,7 @@ export class LinkService {
 	static async resolve(slug: string) {
 		return db.link.findUnique({
 			where: { slug },
-			select: { destinationUrl: true, isActive: true, deletedAt: true },
+			select: { slug: true, title: true, destinationUrl: true, isActive: true, deletedAt: true },
 		})
 	}
 }
