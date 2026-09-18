@@ -1,139 +1,58 @@
-# Project Architecture
+# ilr.sh Architecture
 
-This project follows clean architecture principles with a well-organized folder structure for scalability and maintainability.
+ilr.sh is a private link-shortening application built with the Next.js App Router. Authenticated users manage short links and a public personal page; visitors use the redirect and public-profile routes without access to the dashboard.
 
-## Folder Structure
+## Routes
+
+- `/`: product landing page.
+- `/auth/login` and `/auth/register`: authentication flows.
+- `/admin`: private link dashboard.
+- `/admin/links/[id]`: short-link editing.
+- `/admin/page`: personal-page management.
+- `/r/[slug]`: short-link redirect endpoint.
+- `/@username`: public personal page.
+
+`src/proxy.ts` redirects authenticated users to the dashboard and protects private routes.
+
+## Source Structure
 
 ```
 src/
-├── app/                    # Next.js App Router (Presentation Layer)
-│   ├── api/               # Typed Route Handlers
-│   ├── auth/              # Authentication pages
-│   │   ├── login/         # Login page
-│   │   ├── logout/        # Logout page
-│   │   └── register/      # Register page
-│   ├── profile/           # Profile page (protected)
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Home page
-│   └── providers.tsx      # Client-side providers
-│
-├── components/            # Reusable UI Components (Client Components)
-│   ├── auth/             # Authentication components
-│   │   ├── login-content.tsx
-│   │   ├── login-form.tsx
-│   │   ├── register-content.tsx
-│   │   ├── register-form.tsx
-│   │   └── index.ts      # Barrel export
-│   ├── home/             # Home page components
-│   │   ├── home-content.tsx
-│   │   └── index.ts
-│   └── profile/          # Profile page components
-│       ├── profile-content.tsx
-│       └── index.ts
-│
-├── modules/              # Business Logic by Domain
-│   └── auth/            # Authentication module
-│       ├── auth-service.ts
-│       ├── auth-session.ts
-│       ├── schemas.ts   # Shared API contracts
-│       ├── types.ts
-│       └── index.ts     # Barrel export
-│
-├── lib/                 # Shared Utilities and Infrastructure
-│   ├── utils/          # Utility functions
-│   │   ├── validators.ts
-│   │   └── index.ts
-│   ├── api-client.ts   # Typed frontend API client
-│   ├── api-result.ts   # Result and type guard classes
-│   ├── api-response.ts # API response helpers
-│   ├── db.ts           # Database connection (Prisma)
-│   └── password.ts     # Password hashing utilities
-│
-└── proxy.ts            # Route protection proxy
+├── app/                    # Pages, server actions, and route handlers
+│   ├── admin/              # Private dashboard, links, and personal page
+│   ├── auth/               # Login, registration, and logout
+│   ├── r/[slug]/           # Short-link resolution and redirect
+│   └── [username]/         # Public /@username page
+├── components/             # Reusable interface components
+├── modules/
+│   ├── auth/               # User authentication and opaque sessions
+│   ├── bio/                # Personal pages and their links
+│   └── links/              # Slug generation, URL validation, and link service
+├── lib/                    # Shared infrastructure, including Prisma access
+└── proxy.ts                # Route access control
+
+prisma/
+└── schema/                 # User, session, Link, BioPage, and BioLink models
 ```
 
-## Architecture Principles
+## Domains
 
-### 1. Separation of Concerns
+### Links
 
-- **app/**: Route definitions and page components (thin layer)
-- **components/**: Reusable UI components
-- **modules/**: Business logic organized by domain
-- **lib/**: Shared utilities and infrastructure
+`LinkService` owns short-link operations. It validates destination URLs, generates Base62 slugs when no custom slug is supplied, restricts mutations to the owner, and resolves active links for `/r/[slug]`.
 
-### 2. Feature-Based Organization
+### Personal Pages
 
-Each module (auth, users, etc.) contains:
+Each user can own one `BioPage`. A `BioLink` can point to an active short link owned by that user or to a validated direct URL. Public pages expose only published pages and visible, available links.
 
-- Shared request/response schemas for API boundaries
-- Server-only classes for business logic
-- Barrel exports for clean imports
+### Authentication
 
-### 3. Clean Code Practices
+Passwords are hashed with Argon2id. Sessions are opaque tokens persisted in PostgreSQL and stored in cookies. Business rules remain in `src/modules/auth`, outside route and component layers.
 
-- **kebab-case**: All file and folder names use kebab-case
-- **Named Exports**: Components use named exports for better refactoring
-- **Barrel Exports**: Index files provide clean import paths
-- **Type Safety**: Full TypeScript coverage
+## Design Rules
 
-### 4. Component Structure
-
-- **Server Components**: Default for pages in app/
-- **Client Components**: In components/ with "use client" directive
-- **Separation**: UI logic separated from business logic
-
-## Import Examples
-
-```typescript
-// Clean imports using barrel exports
-import { LoginContent, LoginForm } from "@/components/auth"
-import { ApiClient } from "@/lib/api-client"
-import { AuthSession } from "@/modules/auth"
-```
-
-## File Naming Conventions
-
-- **Components**: `component-name.tsx` (e.g., `login-form.tsx`)
-- **Route Handlers**: `route.ts` inside `app/api/**`
-- **Services**: `domain-service.ts` inside each module when business logic is needed
-- **Utilities**: `utility-name.ts` (e.g., `validators.ts`)
-- **Exports**: `index.ts` in each folder for barrel exports
-
-## Benefits
-
-1. **Scalability**: Easy to add new features without cluttering
-2. **Maintainability**: Clear separation makes code easy to find and modify
-3. **Testability**: Isolated business logic is easier to test
-4. **Readability**: Consistent naming and organization
-5. **Reusability**: Shared components and utilities are easily accessible
-
-## Adding New Features
-
-1. Create a new folder in `modules/` with your domain name
-2. Add shared schemas and server-only classes
-3. Expose Route Handlers in `app/api/**`
-4. Create an `index.ts` for exports
-5. Add related UI components in `components/` if needed
-6. Add pages in `app/` that use the feature
-
-Example:
-
-```
-modules/
-└── products/
-    ├── schemas.ts
-    ├── product-service.ts
-    └── index.ts
-```
-
-## Best Practices
-
-- Keep business logic in server-only module classes
-- Group helper behavior in responsibility-based classes such as `AuthService`, `AuthSession`, `ApiResult` and `TypeGuard`
-- Use typed Route Handlers for frontend mutations and client-side reads
-- Keep UI components in `components/`
-- Use server components by default, client components when needed
-- Always export through index files for clean imports
-- Follow kebab-case for all files and folders
-- Use TypeScript for type safety
+- Keep domain rules in `src/modules`, not page components.
+- Validate external destination URLs before persistence.
+- Scope every private data mutation and query to the authenticated user.
+- Prefer server components and server actions; use client components only for interactive UI.
+- Keep the public redirect route free of user-session requirements.

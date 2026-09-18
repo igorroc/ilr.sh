@@ -16,33 +16,30 @@ export function HomeContent() {
 						variant="soft"
 						className="border border-sky-300/20 bg-sky-400/10 text-sky-100"
 					>
-						Next.js 16 + Prisma + PostgreSQL
+						ilr.sh
 					</Chip>
 					<h1 className="max-w-2xl text-4xl font-black tracking-tight text-white sm:text-6xl">
-						Seu ponto de partida para apps fullstack modernos
+						Links simples, sob seu controle.
 					</h1>
 				</Card.Header>
 				<Card.Content className="gap-8 px-6 pb-8 sm:px-10">
 					<p className="mx-auto max-w-2xl text-center text-base leading-7 text-slate-200 sm:text-lg">
-						Template pronto para evoluir seu produto com autenticação, banco de dados e uma base
-						visual mais acolhedora. Comece ajustando{" "}
-						<code className="rounded-lg border border-white/10 bg-white/10 px-2 py-1 text-sm text-sky-100">
-							src/app/page.tsx
-						</code>
+						Crie links curtos privados, controle seus destinos e concentre os links importantes em
+						uma pagina publica.
 					</p>
 
 					<div className="grid gap-3 rounded-3xl border border-white/10 bg-slate-950/30 p-4 text-sm text-slate-200 sm:grid-cols-3">
 						<div className="rounded-2xl bg-white/10 p-4">
-							<strong className="block text-white">Autenticação</strong>
-							Login, cadastro e sessão protegida.
+							<strong className="block text-white">Links curtos</strong>
+							Slugs unicos, destinos validados e controle de ativacao.
 						</div>
 						<div className="rounded-2xl bg-white/10 p-4">
-							<strong className="block text-white">Banco integrado</strong>
-							Prisma configurado para produção.
+							<strong className="block text-white">Pagina de links</strong>
+							Reuna destinos em um unico perfil compartilhavel.
 						</div>
 						<div className="rounded-2xl bg-white/10 p-4">
-							<strong className="block text-white">UI pronta</strong>
-							Componentes bonitos e responsivos.
+							<strong className="block text-white">Area privada</strong>
+							Gerencie links, status e sua pagina pessoal.
 						</div>
 					</div>
 
@@ -60,10 +57,10 @@ export function HomeContent() {
 							Criar conta
 						</Link>
 						<Link
-							href="/profile"
+							href="/admin"
 							className="rounded-2xl border border-white/60 bg-white/5 px-6 py-3 text-center font-semibold text-slate-100 transition hover:bg-white/10"
 						>
-							Ver perfil
+							Abrir painel
 						</Link>
 					</div>
 				</Card.Content>
