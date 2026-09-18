@@ -146,7 +146,13 @@ export default async function PublicBioPage({ params }: { params: Promise<{ user
 						<Image src="/icon.png" alt="" width={40} height={40} className="h-10 w-10 rounded-lg" />
 						<span className="text-xl font-black tracking-tight">ilr.sh</span>
 					</Link>
-					<PublicProfileShare title={`${page.name} | ilr.sh`} />
+					<PublicProfileShare
+						name={page.name}
+						username={user.username}
+						headline={page.headline}
+						avatarUrl={avatarUrl}
+						linksCount={links.length}
+					/>
 				</header>
 
 				{bannerUrl && (
