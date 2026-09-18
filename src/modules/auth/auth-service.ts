@@ -38,37 +38,8 @@ export class AuthService {
 	}
 
 	static async register(input: RegisterRequest): Promise<AuthServiceResult> {
-		const email = input.email.toLowerCase()
-
-		const existingUser = await db.user.findFirst({
-			where: {
-				email,
-			},
-			select: {
-				id: true,
-			},
-		})
-
-		if (existingUser) {
-			return ApiResult.failure({ code: "CONFLICT", message: "User already exists" })
-		}
-
-		const encryptedPassword = await PasswordService.hash(input.password)
-
-		const newUser = await db.user.create({
-			data: {
-				name: input.name,
-				email,
-				password: encryptedPassword,
-			},
-			select: {
-				id: true,
-			},
-		})
-
-		await AuthSession.authenticateLogin(newUser.id)
-
-		return ApiResult.success(null)
+		void input
+		return ApiResult.failure({ code: "INTERNAL_ERROR", message: "Public registration is disabled" })
 	}
 
 	static async logout(): Promise<AuthServiceResult> {
