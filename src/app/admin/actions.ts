@@ -1,7 +1,6 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
 
 import { BioService } from "@/modules/bio"
 import { AuthSession } from "@/modules/auth"
@@ -25,12 +24,12 @@ export async function saveProfileAction(formData: FormData) {
 }
 
 export async function createLinkAction(formData: FormData) {
-	const link = await LinkService.create({
+	await LinkService.create({
 		title: String(formData.get("title") ?? ""),
 		slug: String(formData.get("slug") ?? ""),
 		destinationUrl: String(formData.get("destinationUrl") ?? ""),
 	})
-	redirect(`/admin/links/${link.id}`)
+	revalidatePath("/admin")
 }
 
 export async function updateLinkAction(id: string, formData: FormData) {

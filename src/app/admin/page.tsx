@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import db from "@/lib/db"
 import { AuthSession } from "@/modules/auth"
+import { NewLinkModal } from "@/components/admin/new-link-modal"
 import { deleteLinkAction, setLinkActiveAction } from "./actions"
 
 const origin = process.env.NEXT_PUBLIC_APP_URL ?? "https://ilr.sh"
@@ -20,12 +21,7 @@ export default async function AdminLinksPage() {
 					<h1 className="text-3xl font-black text-white">Links</h1>
 					<p className="mt-1 text-slate-300">Gerencie seus links curtos.</p>
 				</div>
-				<Link
-					href="/admin/links/new"
-					className="rounded-xl bg-sky-500 px-4 py-3 font-semibold text-white hover:bg-sky-400"
-				>
-					Novo link
-				</Link>
+				<NewLinkModal />
 			</div>
 			<div className="overflow-x-auto rounded-2xl border border-white/15 bg-white/10">
 				<table className="w-full min-w-[760px] text-left text-sm">
