@@ -1,4 +1,5 @@
 import { AuthSession } from "@/modules/auth"
+import { ImageUploadField } from "@/components/admin/image-upload-field"
 import db from "@/lib/db"
 import {
 	addBioLinkAction,
@@ -14,7 +15,11 @@ export default async function AdminBioPage() {
 	const user = await AuthSession.requireUser()
 	const page = await db.bioPage.findUnique({
 		where: { userId: user.id },
-		include: { links: { orderBy: { sortOrder: "asc" }, include: { link: true } } },
+		include: {
+			avatarImage: { select: { id: true, url: true } },
+			bannerImage: { select: { id: true, url: true } },
+			links: { orderBy: { sortOrder: "asc" }, include: { link: true } },
+		},
 	})
 	const availableLinks = await db.link.findMany({
 		where: { userId: user.id, deletedAt: null, isActive: true },
@@ -37,6 +42,24 @@ export default async function AdminBioPage() {
 				action={savePageAction}
 				className="mt-7 space-y-5 rounded-2xl border border-white/15 bg-white/10 p-6"
 			>
+				<div className="grid gap-5 sm:grid-cols-2">
+					<ImageUploadField
+						kind="avatar"
+						userId={user.id}
+						name="avatarUrl"
+						label="Foto de perfil"
+						defaultValue={page?.avatarImage?.url ?? ""}
+						previewShape="circle"
+					/>
+					<ImageUploadField
+						kind="banner"
+						userId={user.id}
+						name="bannerUrl"
+						label="Banner"
+						defaultValue={page?.bannerImage?.url ?? ""}
+						previewShape="wide"
+					/>
+				</div>
 				<label className="block text-sm font-medium">
 					Nome público
 					<input

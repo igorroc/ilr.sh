@@ -126,7 +126,10 @@ export default async function PublicBioPage({ params }: { params: Promise<{ user
 	const links = page.links.filter(
 		(item) => !item.link || (item.link.isActive && !item.link.deletedAt),
 	)
-	const avatarUrl = `https://api.dicebear.com/10.x/planets/svg?seed=${encodeURIComponent(user.username)}`
+	const avatarUrl =
+		page.avatarImage?.url ||
+		`https://api.dicebear.com/10.x/planets/svg?seed=${encodeURIComponent(user.username)}`
+	const bannerUrl = page.bannerImage?.url ?? null
 
 	const quoteAccent = page.quoteAccentColor ?? "#DCFCE7"
 	const currentYear = new Date().getFullYear()
@@ -146,7 +149,16 @@ export default async function PublicBioPage({ params }: { params: Promise<{ user
 					<PublicProfileShare title={`${page.name} | ilr.sh`} />
 				</header>
 
-				<div className="mx-3 aspect-3/1 rounded-2xl border border-dashed border-slate-200 bg-slate-50 sm:mx-6" />
+				{bannerUrl && (
+					<div className="relative mx-3 aspect-3/1 overflow-hidden rounded-2xl sm:mx-6">
+						{/* eslint-disable-next-line @next/next/no-img-element */}
+						<img
+							src={bannerUrl}
+							alt={`Banner de ${page.name}`}
+							className="absolute inset-0 h-full w-full object-cover"
+						/>
+					</div>
+				)}
 
 				<section className="grid gap-6 px-5 py-8 sm:px-8 md:grid-cols-[132px_minmax(0,1fr)_240px] md:items-center md:gap-8">
 					{/* DiceBear is an external SVG avatar generated from the public username. */}

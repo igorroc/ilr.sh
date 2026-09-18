@@ -9,6 +9,14 @@ import { UserService } from "@/modules/users"
 
 const checked = (value: FormDataEntryValue | null) => value === "on"
 
+function parseImageMeta(value: FormDataEntryValue | null) {
+	try {
+		return JSON.parse(String(value ?? ""))
+	} catch {
+		return undefined
+	}
+}
+
 export type CreateLinkActionResult = { success: true } | { success: false; error: string }
 
 async function revalidatePublicPage() {
@@ -75,6 +83,10 @@ export async function savePageAction(formData: FormData) {
 			.map((topic) => topic.trim()),
 		quote: String(formData.get("quote") ?? ""),
 		quoteAccentColor: String(formData.get("quoteAccentColor") ?? ""),
+		avatarUrl: String(formData.get("avatarUrl") ?? ""),
+		avatarMeta: parseImageMeta(formData.get("avatarUrlMeta")),
+		bannerUrl: String(formData.get("bannerUrl") ?? ""),
+		bannerMeta: parseImageMeta(formData.get("bannerUrlMeta")),
 		isPublished: checked(formData.get("isPublished")),
 	})
 	revalidatePath("/admin/page")
