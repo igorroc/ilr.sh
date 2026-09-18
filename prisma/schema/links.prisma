@@ -19,7 +19,11 @@ model BioPage {
   id          String    @id @default(cuid())
   userId      String    @unique
   name        String
+  headline    String?
   description String?
+  ctaLabel    String?
+  ctaUrl      String?
+  topics      Json      @default("[]")
   isPublished Boolean   @default(false)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -32,6 +36,8 @@ model BioLink {
   id             String   @id @default(cuid())
   pageId         String
   title          String
+  description    String?
+  accentColor    String?
   linkId         String?
   destinationUrl String?
   sortOrder      Int
