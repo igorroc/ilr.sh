@@ -42,7 +42,7 @@ A modern, production-ready fullstack Next.js template with authentication, datab
 
 ### Prerequisites
 
-- Bun 1.3.14+
+- Bun 1.4.2+
 - Docker and Docker Compose
 - Git
 

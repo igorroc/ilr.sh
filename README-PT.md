@@ -42,7 +42,7 @@ Um template moderno e pronto para produção de Next.js fullstack com autentica�
 
 ### Pré-requisitos
 
-- Bun 1.3.14+
+- Bun 1.4.2+
 - Docker e Docker Compose
 - Git
 
