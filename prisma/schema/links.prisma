@@ -1,0 +1,47 @@
+model Link {
+  id             String    @id @default(cuid())
+  userId         String
+  title          String?
+  slug           String    @unique
+  destinationUrl String
+  isActive       Boolean   @default(true)
+  deletedAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bioLinks BioLink[]
+
+  @@index([userId, createdAt])
+}
+
+model BioPage {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  name        String
+  description String?
+  isPublished Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  links BioLink[]
+}
+
+model BioLink {
+  id             String   @id @default(cuid())
+  pageId         String
+  title          String
+  linkId         String?
+  destinationUrl String?
+  sortOrder      Int
+  isVisible      Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  page BioPage @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  link Link?    @relation(fields: [linkId], references: [id], onDelete: Restrict)
+
+  @@index([pageId, sortOrder])
+  @@index([linkId])
+}
