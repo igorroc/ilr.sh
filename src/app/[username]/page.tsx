@@ -94,6 +94,13 @@ function TopicIcon({ topic }: { topic: string }) {
 	)
 }
 
+function getAvatarUrl(username: string, avatarImageUrl?: string | null) {
+	return (
+		avatarImageUrl ||
+		`https://api.dicebear.com/10.x/planets/svg?seed=${encodeURIComponent(username)}`
+	)
+}
+
 export async function generateMetadata({
 	params,
 }: {
@@ -101,16 +108,35 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { username } = await params
 	const user = await getPage(username)
-	if (!user?.bioPage || !user.username) return {}
-	const title = `${user.bioPage.name} | ilr.sh`
-	const description =
-		user.bioPage.description ?? user.bioPage.headline ?? `Links de ${user.bioPage.name}`
+	if (!user?.bioPage || !user.username) return { robots: { index: false, follow: false } }
+	const bioPage = user.bioPage
+	const description = bioPage.description ?? bioPage.headline ?? `Links de ${bioPage.name}`
 	const url = `${origin}/@${user.username}`
+	const avatarUrl = getAvatarUrl(user.username, bioPage.avatarImage?.url)
+	const bannerUrl = bioPage.bannerImage?.url ?? null
+	// A prévia replica o que o usuário cadastrou: nome, descrição e banner.
+	const image = bannerUrl ?? avatarUrl
 	return {
-		title,
+		title: bioPage.name,
 		description,
+		authors: [{ name: bioPage.name }],
 		alternates: { canonical: url },
-		openGraph: { title, description, url, type: "profile" },
+		icons: { icon: [{ url: avatarUrl }] },
+		openGraph: {
+			title: bioPage.name,
+			description,
+			url,
+			siteName: "ilr.sh",
+			type: "profile",
+			username: user.username,
+			images: [{ url: image, alt: `${bioPage.name} — ilr.sh` }],
+		},
+		twitter: {
+			card: bannerUrl ? "summary_large_image" : "summary",
+			title: bioPage.name,
+			description,
+			images: [image],
+		},
 	}
 }
 
@@ -126,9 +152,7 @@ export default async function PublicBioPage({ params }: { params: Promise<{ user
 	const links = page.links.filter(
 		(item) => !item.link || (item.link.isActive && !item.link.deletedAt),
 	)
-	const avatarUrl =
-		page.avatarImage?.url ||
-		`https://api.dicebear.com/10.x/planets/svg?seed=${encodeURIComponent(user.username)}`
+	const avatarUrl = getAvatarUrl(user.username, page.avatarImage?.url)
 	const bannerUrl = page.bannerImage?.url ?? null
 
 	const quoteAccent = page.quoteAccentColor ?? "#DCFCE7"
