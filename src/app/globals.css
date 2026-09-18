@@ -14,3 +14,17 @@ body {
 		text-wrap: balance;
 	}
 }
+
+::selection {
+	background: rgba(52, 211, 153, 0.35);
+}
+
+/* formulários do painel herdam o esquema escuro da referência */
+select option {
+	background-color: #0c1210;
+	color: #f1f5f9;
+}
+
+input[type="color"] {
+	color-scheme: dark;
+}

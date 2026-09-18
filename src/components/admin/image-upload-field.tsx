@@ -88,7 +88,7 @@ export function ImageUploadField({
 		previewShape === "circle" ? "h-24 w-24 rounded-full" : "h-24 w-full rounded-xl sm:h-28"
 
 	return (
-		<div className="block text-sm font-medium">
+		<div className="block text-[13px] font-semibold text-slate-300">
 			<span>{label}</span>
 			<div className="mt-2 flex flex-col gap-3">
 				{preview ? (
@@ -96,11 +96,11 @@ export function ImageUploadField({
 					<img
 						src={preview}
 						alt={`Prévia de ${preset.label.toLowerCase()}`}
-						className={`${previewClass} border border-white/20 bg-slate-950/40 object-cover`}
+						className={`${previewClass} border border-emerald-300/20 bg-[#0a100d] object-cover`}
 					/>
 				) : (
 					<div
-						className={`${previewClass} grid place-items-center border border-dashed border-white/20 bg-slate-950/40 px-4 text-center text-xs text-slate-400`}
+						className={`${previewClass} grid place-items-center border border-dashed border-white/10 bg-[#0a100d] px-4 text-center text-xs font-normal text-slate-500`}
 					>
 						Nenhuma imagem — será usado o padrão.
 					</div>
@@ -110,7 +110,7 @@ export function ImageUploadField({
 						type="button"
 						onClick={() => inputRef.current?.click()}
 						disabled={isUploading}
-						className="rounded-xl bg-sky-500 px-4 py-2.5 font-semibold text-white hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-50"
+						className="rounded-xl bg-emerald-400 px-4 py-2.5 text-sm font-extrabold text-[#06110b] hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
 					>
 						{isUploading ? "Enviando..." : preview ? "Trocar imagem" : "Enviar imagem"}
 					</button>
@@ -119,13 +119,13 @@ export function ImageUploadField({
 							type="button"
 							onClick={handleRemove}
 							disabled={isUploading}
-							className="rounded-xl border border-white/20 px-4 py-2.5 font-semibold hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+							className="rounded-xl border border-white/10 px-4 py-2.5 text-sm font-semibold text-slate-200 hover:bg-white/[0.06] disabled:cursor-not-allowed disabled:opacity-50"
 						>
 							Remover
 						</button>
 					)}
 				</div>
-				<span className="text-xs font-normal text-slate-400">{preset.hint}</span>
+				<span className="text-xs font-normal text-slate-500">{preset.hint}</span>
 			</div>
 			<input
 				ref={inputRef}

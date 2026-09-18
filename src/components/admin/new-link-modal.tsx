@@ -32,14 +32,14 @@ export function NewLinkModal() {
 
 	return (
 		<Modal state={state}>
-			<Modal.Trigger className="rounded-xl bg-sky-500 px-4 py-3 font-semibold text-white hover:bg-sky-400">
-				Novo link
+			<Modal.Trigger className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-400 px-4 py-2.5 text-sm font-extrabold text-[#06110b] shadow-[0_8px_24px_-8px_rgba(52,211,153,0.6)] transition hover:bg-emerald-300">
+				<span aria-hidden="true" className="text-base leading-none">+</span> Novo link
 			</Modal.Trigger>
-			<Modal.Backdrop className="bg-slate-950/70 backdrop-blur-sm">
+			<Modal.Backdrop className="bg-black/70 backdrop-blur-sm">
 				<Modal.Container placement="center" className="w-full max-w-lg px-4">
 					<Modal.Dialog
 						aria-label="Criar novo link"
-						className="rounded-2xl border border-white/15 bg-slate-900 p-6 text-white shadow-2xl"
+						className="rounded-2xl border border-emerald-300/15 bg-[#0c1210] p-6 text-white shadow-2xl"
 					>
 						<Modal.Header className="flex items-start justify-between gap-4">
 							<div>
@@ -52,29 +52,30 @@ export function NewLinkModal() {
 						</Modal.Header>
 						<form action={createLink} className="mt-6 space-y-5">
 							<Modal.Body className="space-y-5">
-								<label className="block text-sm font-medium">
+								<label className="block text-[13px] font-semibold text-slate-300">
 									URL de destino
 									<input
 										required
 										name="destinationUrl"
 										type="url"
 										placeholder="https://exemplo.com"
-										className="mt-2 w-full rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
+										className="mt-2 w-full rounded-xl border border-white/10 bg-[#0a100d] px-3.5 py-3 text-white placeholder:text-slate-600 outline-none focus:border-emerald-300/50 focus:ring-2 focus:ring-emerald-400/20"
 									/>
 								</label>
-								<label className="block text-sm font-medium">
+								<label className="block text-[13px] font-semibold text-slate-300">
 									Título (opcional)
 									<input
 										name="title"
-										className="mt-2 w-full rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
+										placeholder="meu-portfolio"
+										className="mt-2 w-full rounded-xl border border-white/10 bg-[#0a100d] px-3.5 py-3 text-white placeholder:text-slate-600 outline-none focus:border-emerald-300/50 focus:ring-2 focus:ring-emerald-400/20"
 									/>
 								</label>
-								<label className="block text-sm font-medium">
+								<label className="block text-[13px] font-semibold text-slate-300">
 									Slug personalizado (opcional)
 									<input
 										name="slug"
 										placeholder="meu-link"
-										className="mt-2 w-full rounded-xl border border-white/20 bg-slate-950/40 px-3 py-3 text-white"
+										className="mt-2 w-full rounded-xl border border-white/10 bg-[#0a100d] px-3.5 py-3 text-white placeholder:text-slate-600 outline-none focus:border-emerald-300/50 focus:ring-2 focus:ring-emerald-400/20"
 									/>
 								</label>
 							</Modal.Body>
@@ -83,13 +84,13 @@ export function NewLinkModal() {
 									type="button"
 									onClick={() => state.close()}
 									disabled={isSubmitting}
-									className="rounded-xl border border-white/20 px-4 py-3 font-semibold hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+									className="rounded-xl border border-white/10 px-4 py-3 text-sm font-semibold text-slate-200 hover:bg-white/[0.06] disabled:cursor-not-allowed disabled:opacity-50"
 								>
 									Cancelar
 								</button>
 								<button
 									disabled={isSubmitting}
-									className="rounded-xl bg-sky-500 px-4 py-3 font-semibold text-white hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-50"
+									className="rounded-xl bg-emerald-400 px-4 py-3 text-sm font-extrabold text-[#06110b] hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
 								>
 									{isSubmitting ? "Criando..." : "Criar link"}
 								</button>
