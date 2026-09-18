@@ -9,7 +9,7 @@ ilr.sh is a private link-shortening application built with the Next.js App Route
 - `/admin`: private link dashboard.
 - `/admin/links/[id]`: short-link editing.
 - `/admin/page`: personal-page management.
-- `/r/[slug]`: short-link redirect endpoint.
+- `/r/[slug]`: short-link page that mirrors the destination metatags and auto-redirects.
 - `/@username`: public personal page.
 
 `src/proxy.ts` redirects authenticated users to the dashboard and protects private routes.
@@ -39,7 +39,7 @@ prisma/
 
 ### Links
 
-`LinkService` owns short-link operations. It validates destination URLs, generates Base62 slugs when no custom slug is supplied, restricts mutations to the owner, and resolves active links for `/r/[slug]`.
+`LinkService` owns short-link operations. It validates destination URLs, generates Base62 slugs when no custom slug is supplied, restricts mutations to the owner, and resolves active links for `/r/[slug]`. `fetchDestinationPreview` extracts the destination title, description, and image (with timeout, size cap, and private-host guards) so short-link and profile metadata can mirror user content.
 
 ### Personal Pages
 
